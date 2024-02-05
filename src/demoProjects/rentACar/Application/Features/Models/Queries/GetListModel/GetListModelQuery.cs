@@ -14,13 +14,12 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Models.Queries.GetListModel
 {
-    public class GetListModelQuery:IRequest<ModelListModel>
+    public class GetListModelQuery : IRequest<ModelListModel>
     {
         public PageRequest PageRequest { get; set; }
 
         public class GetListModelQueryHandler : IRequestHandler<GetListModelQuery, ModelListModel>
         {
-
             private readonly IMapper _mapper;
             private readonly IModelRepository _modelRepository;
 
@@ -32,14 +31,17 @@ namespace Application.Features.Models.Queries.GetListModel
 
             public async Task<ModelListModel> Handle(GetListModelQuery request, CancellationToken cancellationToken)
             {
-                IPaginate<Model> models= await _modelRepository.GetListAsync(include:
-                    m => m.Include(c=>c.Brand),
+                // car models
+                IPaginate<Model> models = await _modelRepository.GetListAsync(include:
+                    m => m.Include(c => c.Brand),
                     index: request.PageRequest.Page,
-                    size: request.PageRequest.PageSize
-                    );
-                ModelListModel mappedModels = _mapper.Map<ModelListModel>(models);
-                return mappedModels;
+                    size: request.PageRequest.PageSize);
+
+                ModelListModel mappedModel = _mapper.Map<ModelListModel>(models);
+                return mappedModel;
+
             }
         }
+
     }
 }
