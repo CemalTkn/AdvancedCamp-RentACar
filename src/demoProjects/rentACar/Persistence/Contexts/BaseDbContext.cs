@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Core.Security.Entities;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -14,6 +15,12 @@ namespace Persistence.Contexts
         protected IConfiguration Configuration { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Model> Models { get; set; }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
 
 
         public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration) : base(dbContextOptions)
@@ -56,7 +63,7 @@ namespace Persistence.Contexts
             Brand[] brandEntitySeeds = { new(1, "Audi"), new(2, "Mercedes") };
             modelBuilder.Entity<Brand>().HasData(brandEntitySeeds);
 
-            Model[] modelEntitySeeds = { new(1, 1,"A4",1500,""), new(2, 2, "A200", 1300, "") };
+            Model[] modelEntitySeeds = { new(1, 1, "A8", 1200, " "), new(2, 2, "S600", 12308, "") };
             modelBuilder.Entity<Model>().HasData(modelEntitySeeds);
 
 
